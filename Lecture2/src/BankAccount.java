@@ -1,7 +1,7 @@
 
 public class BankAccount {
 	//Fields
-	private int amount;
+	protected int amount;
 	private String owner;
 	private int accountID;
 	
@@ -48,5 +48,8 @@ public class BankAccount {
 	}
 	public void setOwner(String newOwner) {
 		owner = newOwner;
+	}
+	public String toString() {
+		return owner + "'s account id is " + accountID + ". It holds $" + amount + ".";
 	}
 }
