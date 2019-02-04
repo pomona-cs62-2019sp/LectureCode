@@ -32,7 +32,7 @@ public class MyGraphicsDemo extends JFrame {
 	// The quit button on the menu terminates the program.
 	public static void main(String[] s) {
 		MyGraphicsDemo f = new MyGraphicsDemo("MyGraphicsDemo");
-		//f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		f.setVisible(true);
 	}
