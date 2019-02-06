@@ -10,7 +10,7 @@ public class Animal {
 	}
 	
 	public static void main(String[] args) {
-		Cat myCat = new Cat();
+		Animal myCat = new Cat();
 		myCat.testClassMethod(); //invoking a hidden method
 		myCat.testInstanceMethod(); //invoking an overridden method
 	    System.out.println(myCat.legs); //accessing a hidden field
