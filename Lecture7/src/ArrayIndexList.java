@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+//import java.util.function.Consumer;
+import java.util.Iterator;
+
 /**
  * Realization of an indexed list by means of an array, which is doubled when
  * the size of the indexed list exceeds the capacity of the array.
@@ -7,10 +11,11 @@
  */
 public class ArrayIndexList<E> implements IndexList<E> {
 	private E[ ] elts; // array storing the elements of the indexed list
-	private int capacity = 1; // initial length of array elts
+	private int capacity = 16; // initial length of array elts
 	private int eltsFilled = 0; // number of elements stored in the indexed list
 
-	/** Creates the indexed list with initial capacity 1. */
+	/** Creates the indexed list with initial capacity 16. */
+	@SuppressWarnings("unchecked")
 	public ArrayIndexList() {
 		elts = (E[]) new Object[capacity]; // the compiler may warn, but this is ok
 	}
@@ -59,9 +64,10 @@ public class ArrayIndexList<E> implements IndexList<E> {
 	public void add(int r, E elt) throws IndexOutOfBoundsException {
 		checkIndex(r, size() + 1);
 		ensureCapacity();
-		for (int i = eltsFilled - 1; i >= r; i--)
+		for (int i = eltsFilled - 1; i >= r; i--) {
 			// shift elements up
 			elts[i + 1] = elts[i];
+		}
 		elts[r] = elt;
 		eltsFilled++;
 	}
@@ -100,9 +106,10 @@ public class ArrayIndexList<E> implements IndexList<E> {
 	public E remove(int r) throws IndexOutOfBoundsException {
 		checkIndex(r, size());
 		E temp = elts[r];
-		// shift elements down
-		for (int i = r; i < eltsFilled - 1; i++)
+		for (int i = r; i < eltsFilled - 1; i++) {
+			// shift elements down
 			elts[i] = elts[i + 1];
+		}
 		eltsFilled--;
 		return temp;
 	}
@@ -114,7 +121,61 @@ public class ArrayIndexList<E> implements IndexList<E> {
 	 */
 	private void checkIndex(int r, int n) 
 			throws IndexOutOfBoundsException { 
-		if (r < 0 || r >= n)
+		if (r < 0 || r >= n) {
 			throw new IndexOutOfBoundsException("Illegal index: " + r);
+		}
+	}
+	
+	public Iterator<E> iterator() {
+		return new ArrayIndexListIterator();
+	}
+	
+	private class ArrayIndexListIterator implements Iterator<E>{
+		private int currentIndex = -1;
+
+		public boolean hasNext() {
+			return currentIndex < eltsFilled-1;
+		}
+
+		public E next() {
+			currentIndex++;
+			return elts[currentIndex];
+		}
+
+		public void remove() throws UnsupportedOperationException {
+			throw new UnsupportedOperationException("remove method not implemented");		
+		}
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		IndexList<String> myList = new ArrayIndexList<String>();
+		myList.add("hello");
+		myList.add("there");
+		Iterator<String> listIterator = myList.iterator();
+		while(listIterator.hasNext()){
+			System.out.println(listIterator.next());
+		}
+
+		for(String elt: myList) {
+			System.out.println(elt);
+		}
+		
+		ArrayList<String> myAL = new ArrayList<String>();
+		myAL.add("This");
+		myAL.add("is");
+		myAL.add("a new list");
+		listIterator = myAL.iterator();
+		System.out.println(listIterator.next());
+		// uncommenting next line will raise an exception!
+		// myAL.add("in this program");
+		// System.out.println(listIterator.next());
+		
+		// iterate using forEach
+		System.out.println("Using new-fangled internal iterator");
+		myAL.forEach(elt -> {System.out.println(elt);});
+		
+
 	}
 }

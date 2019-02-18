@@ -4,7 +4,7 @@
  * @author Roberto Tamassia, Michael Goodrich
  */
 
-public interface IndexList<E> {
+public interface IndexList<E> extends Iterable<E> {
 
 	/** 
 	 * @return the number of elements in the indexed list. 
@@ -23,6 +23,12 @@ public interface IndexList<E> {
 	 * have been moved one slot to the right to make room for the new element.
 	 */
 	public void add(int i, E e) throws IndexOutOfBoundsException;
+	
+	/** 
+	 * @param e  element to be inserted at the end of the list
+	 * post: the end of the list now holds e.
+	 */
+	public void add(E e);
 
 	/** 
 	 * @return the element stored at the given index. 
