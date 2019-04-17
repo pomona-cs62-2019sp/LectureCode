@@ -12,6 +12,7 @@ public class UniqueSinglyLinkedList<E> extends SinglyLinkedList<E> {
 			while (runner.next() != null) {
 				if (runner.next().value().equals(current.value())) {
 					runner.setNext(runner.next().next());
+					count--;
 				} else {
 					runner = runner.next();
 				}
